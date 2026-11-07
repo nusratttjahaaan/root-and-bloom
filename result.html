@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Results | Root & Bloom</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div style="padding: 22px 40px;">
+    <a href="login.html" class="logo">Root &amp; <span>Bloom</span></a>
+  </div>
+
+  <div class="result-wrap">
+    <h1 id="rTitle">Meet your curls.</h1>
+    <p class="sub">Your routine works best with gentle moisture and a little scalp support.</p>
+
+    <div class="result-grid">
+      <div class="result-card">
+        <small>Hair pattern</small>
+        <b id="rType">Curly</b>
+        <p>Your natural hair pattern</p>
+      </div>
+      <div class="result-card">
+        <small>Texture</small>
+        <b id="rTexture">Medium</b>
+        <p>Your strand thickness</p>
+      </div>
+      <div class="result-card">
+        <small>Scalp</small>
+        <b id="rScalp">Dry</b>
+        <p>Benefits from gentle care</p>
+      </div>
+      <div class="result-card">
+        <small>Main goal</small>
+        <b id="rGoal">More moisture</b>
+        <p>What we will focus on</p>
+      </div>
+    </div>
+
+    <div class="sens-box" id="sensBox">
+      <b><i class="bi bi-exclamation-triangle"></i> Sensitivity saved</b>
+      <p id="sensText"></p>
+    </div>
+
+    <div class="result-actions">
+      <a href="quiz.html" class="btn-light"><i class="bi bi-arrow-counterclockwise"></i> Retake assessment</a>
+      <a href="dashboard.html" class="btn-outline-brand">View dashboard &rarr;</a>
+    </div>
+  </div>
+
+  <script>
+  
+    const saved = localStorage.getItem("hairAnswers");
+    if (saved) {
+      const a = JSON.parse(saved);
+      if (a.hairType) {
+        document.getElementById("rType").textContent = a.hairType;
+        document.getElementById("rTitle").textContent = "Meet your " + a.hairType.toLowerCase() + " hair.";
+      }
+      if (a.texture) document.getElementById("rTexture").textContent = a.texture;
+      if (a.scalp)   document.getElementById("rScalp").textContent = a.scalp;
+      if (a.goal)    document.getElementById("rGoal").textContent = a.goal;
+      
+      let avoid = (a.avoid || []).filter(function (x) { return x !== "No Preference" && x !== "Other"; });
+      if ((a.avoid || []).includes("Other") && a.otherText) avoid.push(a.otherText);
+      if (avoid.length > 0) {
+        document.getElementById("sensBox").style.display = "block";
+        document.getElementById("sensText").textContent =
+          "We’ll flag products containing " + avoid.join(", ").toLowerCase() + ".";
+      }
+    }
+  </script>
+</body>
+</html>
